@@ -1,5 +1,6 @@
 Cerberus==1.3.2
 click==7.1.2
+dnspython==2.0.0
 Eve==1.1.4
 Events==0.3
 Flask==1.1.2
