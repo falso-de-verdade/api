@@ -4,13 +4,16 @@ from eve import Eve
 import os
 
 
-def start():
+def start(mongo_uri, *args, **kwargs):
     '''
     Start server.
     '''
 
-    app = Eve(settings=settings.__dict__)
-    app.run()
+    app_settings = settings.__dict__
+    app_settings['MONGO_URI'] = mongo_uri
+
+    app = Eve(settings=app_settings)
+    app.run(*args, **kwargs)
 
 
 def get_settings_path():
