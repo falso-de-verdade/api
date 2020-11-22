@@ -1,11 +1,21 @@
 from . import (
-    user,
+    user, role, passwordreset, condominium,
+    schedule, meeting, outbuilding,
+    availability, media 
 )
 
 
 # Registered modules which contains information about a domain.
 modules = {
     'user': user,
+    'role': role,
+    'passwordreset': passwordreset,
+    'condominium': condominium,
+    'schedule': schedule,
+    'meeting': meeting,
+    'outbuilding': outbuilding,
+    'availability': availability,
+    'media': media
 }
 
 
