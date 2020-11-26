@@ -1,8 +1,4 @@
 schema = {
-    'id': {
-        'type': 'integer',
-        'unique': True,
-    },
     'token_hash': {
         'type': 'string',
     }
