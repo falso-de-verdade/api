@@ -1,8 +1,4 @@
 schema = {
-    'id': {
-        'type': 'integer',
-        'unique': True,
-    },
     'name': {
         'type': 'string',
     }
