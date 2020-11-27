@@ -1,16 +1,9 @@
 schema = {
-    'email': {
-        'type': 'string',
-        'unique': True,
-    },
     'name': {
         'type': 'string',
     },
-    'pwd_hash': {
+    'address': {
         'type': 'string',
-    },
-    'role': {
-        'type': 'list',
     }
 }
 

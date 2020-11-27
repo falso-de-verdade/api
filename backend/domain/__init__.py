@@ -1,7 +1,8 @@
 from . import (
     user, role, passwordreset, condominium,
     schedule, meeting, outbuilding,
-    availability, media 
+    availability, media, collision, collisionitem,
+    condominiumrole
 )
 
 
@@ -15,7 +16,10 @@ modules = {
     'meeting': meeting,
     'outbuilding': outbuilding,
     'availability': availability,
-    'media': media
+    'media': media,
+    'collision': collision,
+    'collisionitem': collisionitem,
+    'condominiumrole': condominiumrole
 }
 
 

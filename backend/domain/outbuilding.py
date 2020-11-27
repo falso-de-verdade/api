@@ -7,7 +7,14 @@ schema = {
     },
     'capacity': {
         'type': 'integer',
-    }
+    },
+    'condominium_id': {    
+        'required': True,
+        'data_relation': {
+            'resource': 'condominium',
+            'field': '_id',
+        },
+    },
 }
 
 

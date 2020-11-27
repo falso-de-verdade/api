@@ -1,7 +1,14 @@
 schema = {
     'name': {
         'type': 'string',
-    }
+    },
+    'user_id': {    
+        'required': True,
+        'data_relation': {
+            'resource': 'user',
+            'field': '_id',
+        },
+    },
 }
 
 
