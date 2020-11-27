@@ -1,4 +1,4 @@
-#tabela que associa um papel de usuário (por ex., Maria sendo síndica) com um condomínio
+#tabela que associa um usuário, com o seu papel (por ex., Maria sendo síndica) com um condomínio
 schema = {
     'user_id': {    
         'required': True,
