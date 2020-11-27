@@ -11,6 +11,7 @@ schema = {
     },
     'role': {
         'type': 'list',
+        'allowed': ["resident", "manager"],
     }
 }
 
