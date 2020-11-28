@@ -1,5 +1,5 @@
 from . import (
-    user, role, passwordreset, condominium,
+    user, passwordreset, condominium,
     schedule, meeting, outbuilding,
     availability, media, collision, collisionitem,
     condominiumrole
@@ -9,7 +9,6 @@ from . import (
 # Registered modules which contains information about a domain.
 modules = {
     'user': user,
-    'role': role,
     'passwordreset': passwordreset,
     'condominium': condominium,
     'schedule': schedule,
