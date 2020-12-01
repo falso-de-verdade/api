@@ -2,10 +2,10 @@ schema = {
     'day': {
         'type': 'datetime',
     },
-    'start_hour': {
+    'startHour': {
         'type': 'string',
     },
-    'end_hour': {
+    'endHour': {
         'type': 'string',
     },
     'occupants': {
@@ -17,14 +17,14 @@ schema = {
     'confirmed': {
         'type': 'boolean',
     },
-    'user_id': {    
+    'userId': {    
         'required': True,
         'data_relation': {
             'resource': 'user',
             'field': '_id',
         },
     },
-    'outbuilding_id': {    
+    'outbuildingId': {    
         'required': True,
         'data_relation': {
             'resource': 'outbuilding',

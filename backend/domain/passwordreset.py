@@ -1,8 +1,8 @@
 schema = {
-    'token_hash': {
+    'tokenHash': {
         'type': 'string',
     },
-    'user_id': {    
+    'userId': {    
         'required': True,
         'data_relation': {
             'resource': 'user',

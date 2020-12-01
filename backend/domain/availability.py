@@ -1,14 +1,14 @@
 schema = {
-    'start_date': {
+    'startDate': {
         'type': 'datetime',
     },
-    'end_date': {
+    'endDate': {
         'type': 'datetime',
     },
-    'start_hour': {
+    'startHour': {
         'type': 'string',
     },
-    'end_hour': {
+    'endHour': {
         'type': 'string',
     }
 }
