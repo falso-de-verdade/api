@@ -2,14 +2,14 @@
 #conflito
 schema = {
     'collisionId': {    
-        'required': True,
+        # 'required': True,
         'data_relation': {
             'resource': 'collision',
             'field': '_id',
         },
     },
     'scheduleId': {    
-        'required': True,
+        # 'required': True,
         'data_relation': {
             'resource': 'schedule',
             'field': '_id',
