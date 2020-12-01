@@ -6,7 +6,7 @@ schema = {
     'name': {
         'type': 'string',
     },
-    'pwd_hash': {
+    'pwdHash': {
         'type': 'string',
     },
     'role': {

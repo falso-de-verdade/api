@@ -5,7 +5,7 @@ schema = {
     'path': {
         'type': 'string',
     },
-    'condominium_id': {    
+    'condominiumId': {    
         'required': True,
         'data_relation': {
             'resource': 'condominium',

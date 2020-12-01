@@ -1,8 +1,8 @@
 schema = {
     'date': {
-        'type': 'datetime',
+        'type': 'date',
     },
-    'start_hour': {
+    'startHour': {
         'type': 'string',
     },
     'duration': {
@@ -11,7 +11,7 @@ schema = {
     'description': {
         'type': 'string',
     },
-    'condominium_id': {    
+    'condominiumId': {    
         'required': True,
         'data_relation': {
             'resource': 'condominium',

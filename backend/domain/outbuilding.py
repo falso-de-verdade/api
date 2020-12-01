@@ -8,7 +8,7 @@ schema = {
     'capacity': {
         'type': 'integer',
     },
-    'condominium_id': {    
+    'condominiumId': {    
         'required': True,
         'data_relation': {
             'resource': 'condominium',

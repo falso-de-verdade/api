@@ -1,5 +1,5 @@
 schema = {
-    'schedule_id': {    
+    'scheduleId': {    
         'required': True,
         'data_relation': {
             'resource': 'schedule',
