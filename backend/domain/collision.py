@@ -1,11 +1,8 @@
 schema = {
-    'token_hash': {
-        'type': 'string',
-    },
-    'user_id': {    
+    'schedule_id': {    
         'required': True,
         'data_relation': {
-            'resource': 'user',
+            'resource': 'schedule',
             'field': '_id',
         },
     }

@@ -10,7 +10,14 @@ schema = {
     },
     'description': {
         'type': 'string',
-    }
+    },
+    'condominium_id': {    
+        'required': True,
+        'data_relation': {
+            'resource': 'condominium',
+            'field': '_id',
+        },
+    },
 }
 
 

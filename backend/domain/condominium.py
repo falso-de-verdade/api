@@ -4,6 +4,9 @@ schema = {
     },
     'address': {
         'type': 'string',
+    },
+    'notes': {
+        'type': 'string',
     }
 }
 

@@ -8,6 +8,10 @@ schema = {
     },
     'pwd_hash': {
         'type': 'string',
+    },
+    'role': {
+        'type': 'list',
+        'allowed': ["resident", "manager"],
     }
 }
 

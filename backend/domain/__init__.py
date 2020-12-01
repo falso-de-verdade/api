@@ -1,21 +1,24 @@
 from . import (
-    user, role, passwordreset, condominium,
+    user, passwordreset, condominium,
     schedule, meeting, outbuilding,
-    availability, media 
+    availability, media, collision, collisionitem,
+    condominiumrole
 )
 
 
 # Registered modules which contains information about a domain.
 modules = {
     'user': user,
-    'role': role,
     'passwordreset': passwordreset,
     'condominium': condominium,
     'schedule': schedule,
     'meeting': meeting,
     'outbuilding': outbuilding,
     'availability': availability,
-    'media': media
+    'media': media,
+    'collision': collision,
+    'collisionitem': collisionitem,
+    'condominiumrole': condominiumrole
 }
 
 
