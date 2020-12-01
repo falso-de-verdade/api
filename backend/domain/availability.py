@@ -1,14 +1,14 @@
 schema = {
-    'startDate': {
-        'type': 'datetime',
+    'fromDay': {
+        'type': 'integer',
     },
-    'endDate': {
-        'type': 'datetime',
+    'toDay': {
+        'type': 'integer',
     },
-    'startHour': {
+    'fromHour': {
         'type': 'string',
     },
-    'endHour': {
+    'toHour': {
         'type': 'string',
     }
 }

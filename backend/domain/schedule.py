@@ -2,10 +2,10 @@ schema = {
     'day': {
         'type': 'datetime',
     },
-    'startHour': {
+    'fromHour': {
         'type': 'string',
     },
-    'endHour': {
+    'toHour': {
         'type': 'string',
     },
     'occupants': {
