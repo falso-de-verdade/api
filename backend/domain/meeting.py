@@ -2,11 +2,11 @@ schema = {
     'date': {
         'type': 'date',
     },
-    'startHour': {
-        'type': 'string',
+    'fromHour': {
+        'type': 'datetime',
     },
-    'duration': {
-        'type': 'string',
+    'toHour': {
+        'type': 'datetime',
     },
     'description': {
         'type': 'string',
