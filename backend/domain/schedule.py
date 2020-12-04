@@ -17,6 +17,9 @@ schema = {
     'confirmed': {
         'type': 'boolean',
     },
+    'notes': {
+        'type': 'string',
+    },
     'userId': {    
         # 'required': True,
         'data_relation': {
