@@ -9,6 +9,9 @@ schema = {
     'passwdHash': {
         'type': 'string',
     },
+    'location': {
+        'type': 'string',
+    },
     'role': {
         'type': 'list',
         'allowed': ["resident", "manager"],
