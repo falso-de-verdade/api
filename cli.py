@@ -14,6 +14,11 @@ def main():
 
     assert mongo_uri, 'Missing MONGO_URI database connection uri'
 
+    # jwt symetric key
+    jwt_secret = os.getenv('JWT_SECRET')
+
+    assert jwt_secret, 'Missing JWT_SECRET key'
+
     # get server info
     host = os.getenv('HOST') or None
     port = os.getenv('PORT') or None
@@ -24,7 +29,8 @@ def main():
     backend.app.start(mongo_uri=mongo_uri,
                       host=host, 
                       port=port,
-                      debug=debug)
+                      debug=debug,
+                      jwt_secret=jwt_secret)
 
 
 if __name__ == '__main__':
