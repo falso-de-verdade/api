@@ -1,4 +1,4 @@
-from . import settings
+from . import settings, auth
 from eve import Eve
 
 import os
@@ -12,7 +12,8 @@ def start(mongo_uri, *args, **kwargs):
     app_settings = settings.__dict__
     app_settings['MONGO_URI'] = mongo_uri
 
-    app = Eve(settings=app_settings)
+    app = Eve(settings=app_settings,
+              auth=auth.TokenizerJwtAuth)
     app.run(*args, **kwargs)
 
 
