@@ -10,9 +10,8 @@ from flask import (
     current_app as app
 )
 
-INVALID_INPUT = 0
-INDETERMINATE_ROLE = 1
-UNKNOW_ROLE = 2
+INDETERMINATE_ROLE = 0
+UNKNOW_ROLE = 1
 
 # main blueprint app
 blueprint = Blueprint('authentication', __name__)
@@ -57,7 +56,7 @@ def signin(data):
     return authenticate(email, password, role)
 
 
-def with_fail(code, **kwargs):
+def with_fail(message, status=422, **kwargs):
     '''
     Helper method for creating responses with error status.
     '''
@@ -66,12 +65,12 @@ def with_fail(code, **kwargs):
     response = {
         '_status': 'ERR',
         '_error': {
-            'code': code,
+            'message': message,
             **kwargs,
         }
     }
 
-    return (response, 422)
+    return response, status
 
 
 def default_auth_failed_response():
@@ -79,11 +78,8 @@ def default_auth_failed_response():
     Default response for failed authentications.
     '''
 
-    response = {
-        'message': 'Invalid credentials',
-    }
-
-    return (response, 401)
+    return with_fail('Invalid credentials',
+                     status=401)
 
 
 def verify_user_passwd(passwd_str: str, user: dict):
@@ -161,25 +157,26 @@ def authenticate(email, password, role=None):
                 # unfortunately we can not proceed
                 # user must send another request with 
                 # a role of choice
-                response = with_fail(INDETERMINATE_ROLE,
-                                     message=message)
+                response = with_fail(message,
+                                     code=INDETERMINATE_ROLE)
 
         elif role not in user_roles:
             message = f'Unknow role: {role}'
-            response = with_fail(UNKNOW_ROLE, message=message)
+            response = with_fail(message,
+                                 code=UNKNOW_ROLE)
 
     # generate a new jwt token for user
     token, expires_in = generate_token(found_user, role)
 
     # check whether password is ok
-    isPasswdOk = verify_user_passwd(password, found_user)
+    is_passwd_ok = verify_user_passwd(password, found_user)
 
     # already have a response, send it now
     if response is not None:
         return response
 
     # authentication failed
-    if not isPasswdOk or unknow_user:
+    if not is_passwd_ok or unknow_user:
         return default_auth_failed_response()
     
     return {
