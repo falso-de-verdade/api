@@ -5,9 +5,7 @@ from eve_auth_jwt import JWTAuth
 import os
 
 
-def start(mongo_uri, 
-          jwt_secret, 
-          jwt_exp_minutes=None,
+def start(settings_override,
           *args, 
           **kwargs):
     '''
@@ -15,11 +13,10 @@ def start(mongo_uri,
     '''
 
     app_settings = settings.__dict__
-    app_settings['MONGO_URI'] = mongo_uri
-    app_settings['JWT_EXP_MINUTES'] = jwt_exp_minutes
+    app_settings.update(settings_override)
 
     app = Eve(settings=app_settings,
-              auth=JWTAuth(secret=jwt_secret))
+              auth=JWTAuth)
 
     # allows custom application routes
     blueprint.register_all(app)

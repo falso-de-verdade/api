@@ -7,6 +7,7 @@ import os
 req_variables = [
     'MONGO_URI',
     'JWT_SECRET',
+    'X_DOMAINS',
 ]
 
 # other variables searched, but not required
@@ -21,17 +22,7 @@ def main():
         load_dotenv()
 
     # load application params
-    parameters = load_env_parameters()
-
-    # ensure expiration is an python integer
-    if parameters['jwt_exp_minutes']:
-        try:
-            expiration = int(parameters['jwt_exp_minutes'])
-        except ValueError:
-            print('[ERROR] Environment JWT_EXP_MINUTES must be an integer.')
-            return
-
-        parameters['jwt_exp_minutes'] = expiration
+    parameters = parse_env_parameters()
 
     # get server info
     host = os.getenv('HOST') or None
@@ -40,10 +31,33 @@ def main():
     # Logging verbosity
     debug = os.getenv('DEBUG') == '1'
 
-    backend.app.start(host=host, 
+    backend.app.start(parameters,
+                      host=host, 
                       port=port,
-                      debug=debug,
-                      **parameters)
+                      debug=debug)
+
+
+def parse_env_parameters():
+    '''
+    Load and parse environment parameters.
+    '''
+
+    parameters = load_env_parameters()
+
+    # ensure expiration is an python integer
+    if parameters['JWT_EXP_MINUTES']:
+        try:
+            expiration = int(parameters['JWT_EXP_MINUTES'])
+        except ValueError:
+            msg = '[ERROR] Environment JWT_EXP_MINUTES must be an integer.'
+            raise AssertionError(msg)
+
+        parameters['JWT_EXP_MINUTES'] = expiration
+
+    # allows multiple domains
+    parameters['X_DOMAINS'] = parameters['X_DOMAINS'].split(',')
+
+    return parameters
 
 
 def load_env_parameters():
@@ -62,7 +76,7 @@ def load_env_parameters():
         value = os.getenv(name)
         if ensure:
             assert value, f'Missing environment var: {name}' 
-        parameters[name.lower()] = value
+        parameters[name] = value
 
     for name in req_variables:
         load_and_maybe_ensure(name)

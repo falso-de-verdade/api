@@ -14,3 +14,9 @@ DOMAIN = domain.load_availables()
 # Default JWT configuration
 JWT_ROLES_CLAIM = 'roles'
 JWT_ISSUER = 'falso-de-verdade_api'
+
+# CORS allowed headers. This configuration is not on documentation
+X_HEADERS = [
+    'content-type',
+    'if-match'
+]
