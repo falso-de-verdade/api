@@ -40,7 +40,9 @@ def validate_json_request(schema):
 
     # just grab values from payload
     for key in schema['properties']:
-        data[key] = payload[key]
+        # add payload value into data when present
+        if key in payload:
+            data[key] = payload[key]
     return data
 
 
