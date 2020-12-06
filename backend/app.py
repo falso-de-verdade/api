@@ -5,13 +5,18 @@ from eve_auth_jwt import JWTAuth
 import os
 
 
-def start(mongo_uri, jwt_secret, *args, **kwargs):
+def start(mongo_uri, 
+          jwt_secret, 
+          jwt_exp_minutes=None,
+          *args, 
+          **kwargs):
     '''
     Start server.
     '''
 
     app_settings = settings.__dict__
     app_settings['MONGO_URI'] = mongo_uri
+    app_settings['JWT_EXP_MINUTES'] = jwt_exp_minutes
 
     app = Eve(settings=app_settings,
               auth=JWTAuth(secret=jwt_secret))

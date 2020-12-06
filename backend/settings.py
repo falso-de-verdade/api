@@ -14,4 +14,3 @@ DOMAIN = domain.load_availables()
 # Default JWT configuration
 JWT_ROLES_CLAIM = 'roles'
 JWT_ISSUER = 'falso-de-verdade_api'
-JWT_EXP_MINUTES = 60
