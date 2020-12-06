@@ -1,4 +1,4 @@
-from . import settings, route
+from . import settings, blueprint
 from eve import Eve
 from eve_auth_jwt import JWTAuth
 
@@ -17,8 +17,8 @@ def start(mongo_uri, jwt_secret, *args, **kwargs):
               auth=JWTAuth(secret=jwt_secret))
 
     # allows custom application routes
-    route.register_all(app)
-    
+    blueprint.register_all(app)
+
     app.run(*args, **kwargs)
 
 
