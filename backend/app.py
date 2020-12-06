@@ -1,10 +1,11 @@
-from . import settings
+from . import settings, blueprint
 from eve import Eve
+from eve_auth_jwt import JWTAuth
 
 import os
 
 
-def start(mongo_uri, *args, **kwargs):
+def start(mongo_uri, jwt_secret, *args, **kwargs):
     '''
     Start server.
     '''
@@ -12,7 +13,12 @@ def start(mongo_uri, *args, **kwargs):
     app_settings = settings.__dict__
     app_settings['MONGO_URI'] = mongo_uri
 
-    app = Eve(settings=app_settings)
+    app = Eve(settings=app_settings,
+              auth=JWTAuth(secret=jwt_secret))
+
+    # allows custom application routes
+    blueprint.register_all(app)
+
     app.run(*args, **kwargs)
 
 
