@@ -20,3 +20,7 @@ X_HEADERS = [
     'content-type',
     'if-match'
 ]
+
+# Disable HATEOS. 
+# The web client is not consuming it anyway.
+HATEOAS = False
