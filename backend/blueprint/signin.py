@@ -24,6 +24,7 @@ validation_schema = {
     'properties': {
         'email': {
             'type': 'string',
+            'format': 'email',
         },
         'password': {
             'type': 'string',

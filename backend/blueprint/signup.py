@@ -54,13 +54,14 @@ def common_user_creation(additional_data):
         'properties': {
             'email': {
                 'type': 'string',
+                'format': 'email',
             },
             'name': {
                 'type': 'string',
             },
             'password': {
                 'type': 'string',
-                'min': 8,
+                'minLength': 8,
             },
         },
         'required': [
