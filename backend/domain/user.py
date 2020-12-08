@@ -25,5 +25,9 @@ schema = {
 
 def build_domain():
     return {
-        'schema': schema
+        'schema': schema,
+
+        # override to only allow listing users
+        # user creation is done by signup route
+        'resource_methods': ['GET',],
     }
