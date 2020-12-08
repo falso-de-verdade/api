@@ -1,4 +1,5 @@
 from . import (
+    utils,
     signin,
     signup,
 )
@@ -16,4 +17,10 @@ def register_all(app):
     '''
 
     for module in modules:
-        app.register_blueprint(module.blueprint)
+        blueprint = module.blueprint
+
+        # apply cors settings
+        utils.cors_from_config(blueprint, app.settings)
+
+        # finally register blueprint
+        app.register_blueprint(blueprint)
