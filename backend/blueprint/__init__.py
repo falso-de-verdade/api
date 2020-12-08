@@ -2,12 +2,14 @@ from . import (
     utils,
     signin,
     signup,
+    user_info,
 )
 
 # registered routes that mount into application
 modules = [
     signin,
     signup,
+    user_info,
 ]
 
 

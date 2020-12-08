@@ -2,9 +2,15 @@
 Helper functions for http parsing.
 '''
 
+from eve.utils import config
+from eve.methods.common import (
+    marshal_write_response,
+    build_response_document,
+)
 from flask import (
     request, 
     abort,
+    current_app as app,
 )
 from flask_cors import CORS
 import jsonschema
@@ -73,3 +79,33 @@ def cors_from_config(blueprint, config):
     }
 
     CORS(blueprint, **kwargs)
+
+
+def build_item_response(resource, _id, save_energy=True):
+    '''
+    Build response for an item.
+    '''
+
+    # grab resource id field
+    id_field = config.DOMAIN[resource]['id_field']
+
+    # get user by _id
+    document = app.data.find_one_raw(resource, **{ id_field: _id })
+
+    # serialize ObjectId
+    document[id_field] = str(document[id_field])
+
+    # build the full response document
+    result = document
+    build_response_document(result, resource, [], document)
+
+    # add extra write meta data
+    result[config.STATUS] = config.STATUS_OK
+
+    if save_energy:
+        # limit what actually gets sent to minimize bandwidth usage
+        response = marshal_write_response(result, resource)
+    else:
+        response = result
+
+    return response

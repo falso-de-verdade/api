@@ -4,11 +4,6 @@ Handles user creation.
 
 from . import utils
 from ..crypto import hasher
-from eve.utils import config
-from eve.methods.common import (
-    marshal_write_response,
-    build_response_document,
-)
 from flask import Blueprint, current_app as app
 
 # main blueprint app
@@ -86,23 +81,6 @@ def common_user_creation(additional_data):
     # create user and get first object id returned
     _id = app.data.insert(resource, data)[0]
 
-    # grab resource id field
-    id_field = config.DOMAIN[resource]['id_field']
-
-    # get user by _id
-    document = app.data.find_one_raw(resource, **{ id_field: _id })
-
-    # serialize ObjectId
-    document[id_field] = str(document[id_field])
-
-    # build the full response document
-    result = document
-    build_response_document(result, resource, [], document)
-
-    # add extra write meta data
-    result[config.STATUS] = config.STATUS_OK
-
-    # limit what actually gets sent to minimize bandwidth usage
-    response = marshal_write_response(result, resource)
-
+    # build and send response for created item
+    response = utils.build_item_response(resource, _id)
     return response, 201
