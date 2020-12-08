@@ -2,12 +2,14 @@
 Helper functions for http parsing.
 '''
 
-from functools import wraps
 from flask import (
     request, 
     abort,
 )
+from flask_cors import CORS
 import jsonschema
+
+from functools import wraps
 
 
 def json_or_fail():
@@ -58,3 +60,16 @@ def expects_json(schema):
             return f(data, *args, **kwargs)
         return wrapper
     return decorator
+
+
+def cors_from_config(blueprint, config):
+    '''
+    Apply CORS into blueprint using eve's configuration.
+    '''
+
+    kwargs = {
+        'origins': config['X_DOMAINS'],
+        'allow_headers': config['X_HEADERS'],
+    }
+
+    CORS(blueprint, **kwargs)

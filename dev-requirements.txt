@@ -8,6 +8,7 @@ Eve==1.1.4
 eve-auth-jwt @ https://github.com/rs/eve-auth-jwt/archive/master.zip
 Events==0.3
 Flask==1.1.2
+Flask-Cors==3.0.9
 itsdangerous==1.1.0
 Jinja2==2.11.2
 jsonschema==3.2.0
