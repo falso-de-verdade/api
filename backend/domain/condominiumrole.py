@@ -1,20 +1,21 @@
 #tabela que associa um usuário, com o seu papel (por ex., Maria sendo síndica) com um condomínio
 schema = {
     'userId': {    
-        # 'required': True,
+        'required': True,
         'data_relation': {
             'resource': 'user',
             'field': '_id',
         },
     },
     'condominiumId': {    
-        # 'required': True,
+        'required': True,
         'data_relation': {
             'resource': 'condominium',
             'field': '_id',
         },
     },
     'role': {
+        'required': True,
         'type': 'list',
         'allowed': ["resident", "manager"],
     }

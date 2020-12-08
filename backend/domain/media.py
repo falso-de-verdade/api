@@ -1,12 +1,14 @@
 schema = {
     'name': {
+        'required': True,
         'type': 'string',
     },
     'path': {
+        'required': True,
         'type': 'string',
     },
     'condominiumId': {    
-        # 'required': True,
+        'required': True,
         'data_relation': {
             'resource': 'condominium',
             'field': '_id',

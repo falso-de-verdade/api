@@ -1,5 +1,6 @@
 schema = {
     'name': {
+        'required': True,
         'type': 'string',
     },
     'address': {
