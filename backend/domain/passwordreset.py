@@ -1,9 +1,10 @@
 schema = {
     'tokenHash': {
+        'required': True,
         'type': 'string',
     },
     'userId': {    
-        # 'required': True,
+        'required': True,
         'data_relation': {
             'resource': 'user',
             'field': '_id',
