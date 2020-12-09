@@ -38,6 +38,6 @@ def build_domain():
                 'name': 1,
                 'location': 1,
                 'role': 1,
-            }
-        }
+            },
+        },
     }
