@@ -18,7 +18,7 @@ def on_internal_creations(resource, request, *args):
     '''
 
     if resource in resources:
-        request.json['userId'] = get_request_auth_value()
+        request.json['user'] = get_request_auth_value()
 
 
 def register_hooks(app):
