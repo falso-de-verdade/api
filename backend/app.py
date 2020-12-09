@@ -1,4 +1,4 @@
-from . import settings, blueprint
+from . import settings, blueprint, hook
 from eve import Eve
 from eve_auth_jwt import JWTAuth
 
@@ -17,6 +17,9 @@ def start(settings_override,
 
     app = Eve(settings=app_settings,
               auth=JWTAuth)
+
+    # allows custom data handling
+    hook.register_all(app)
 
     # allows custom application routes
     blueprint.register_all(app)
