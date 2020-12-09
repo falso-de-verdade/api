@@ -1,8 +1,8 @@
 '''
 Module provides helper functions to automatically inject
-the current authenticated user id into POST payload data.
+the current authenticated user id into GET lookups.
 
-Usefull for creation.
+Usefull for listing and searching for an specific document.
 '''
 
 from eve_auth_jwt import get_request_auth_value
