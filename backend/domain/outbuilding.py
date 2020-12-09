@@ -10,11 +10,13 @@ schema = {
         'required': True,
         'type': 'integer',
     },
-    'condominiumId': {    
+    'condominium': {    
+        'type': 'objectid',
         'required': True,
         'data_relation': {
             'resource': 'condominium',
             'field': '_id',
+            'embeddable': True,
         },
     },
 }
