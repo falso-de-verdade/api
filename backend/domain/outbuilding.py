@@ -1,5 +1,3 @@
-from .utils import match_auth_user_agg
-
 schema = {
     'name': {
         'required': True,
@@ -21,16 +19,18 @@ schema = {
             'embeddable': True,
         },
     },
+    'user': {    
+        'type': 'objectid',
+        'required': True,
+        'data_relation': {
+            'resource': 'user',
+            'field': '_id',
+        },
+    },
 }
 
 
 def build_domain():
     return {
         'schema': schema,
-
-        'datasource': {
-            'aggregation': {
-                'pipeline': match_auth_user_agg('condominium'),
-            }
-        }
     }

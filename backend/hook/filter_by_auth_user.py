@@ -10,6 +10,7 @@ from eve_auth_jwt import get_request_auth_value
 # resources 
 resources = [
     'condominium',
+    'outbuilding',
 ]
 
 
