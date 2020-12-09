@@ -33,4 +33,7 @@ def me():
     # helper attribute for client
     response['isManager'] = get_authen_roles() == ['manager']
 
+    # remove password hash from response
+    del response['passwdHash']
+
     return response, 200
