@@ -30,4 +30,14 @@ def build_domain():
         # override to only allow listing users
         # user creation is done by signup route
         'resource_methods': ['GET',],
+
+        # project all but passwdHash, which is sensitive
+        'datasource': {
+            'projection': {
+                'email': 1,
+                'name': 1,
+                'location': 1,
+                'role': 1,
+            }
+        }
     }
