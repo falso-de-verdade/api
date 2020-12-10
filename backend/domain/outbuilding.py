@@ -1,3 +1,5 @@
+from .utils import hour_re
+
 schema = {
     'name': {
         'required': True,
@@ -9,6 +11,34 @@ schema = {
     'capacity': {
         'required': True,
         'type': 'integer',
+    },
+    'availabilities': {
+        'type': 'list',
+        'minlength': 1,
+        'schema': {
+            'type': 'dict',
+            'schema': {
+                'fromDay': {
+                    'required': True,
+                    'type': 'integer',
+                    'allowed': range(0, 6),
+                },
+                'toDay': {
+                    'type': 'integer',
+                    'allowed': range(-1, 6),
+                },
+                'fromHour': {
+                    'required': True,
+                    'type': 'string',
+                    'regex': hour_re,
+                },
+                'toHour': {
+                    'required': True,
+                    'type': 'string',
+                    'regex': hour_re,
+                },
+            },
+        },
     },
     'condominium': {    
         'type': 'objectid',
