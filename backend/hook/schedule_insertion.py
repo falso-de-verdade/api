@@ -1,14 +1,16 @@
+'''
+Module handles the creation of schedules.
+'''
+
 from flask import abort, current_app as app
-from eve.methods.get import get_internal
 
 
 def on_insert_schedule(items):
     data = app.data
 
     def search_user(schedule):
-        doc = get_internal('outbuilding', 
-                        {'_id': schedule['outbuilding'],
-                         'projection': '{"user":1}'})
+        doc = data.find_one_raw('outbuilding', 
+                                **{'_id': schedule['outbuilding'],})
         if doc is None:
             abort(422, 'Failed to get outbuilding')
         return doc['user']
