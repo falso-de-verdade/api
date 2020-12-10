@@ -1,13 +1,11 @@
 from . import (
     add_manager_role,
-    filter_by_auth_role,
     handle_removal,
 )
 
 # register modules which contain hooks
 modules = [
     add_manager_role,
-    filter_by_auth_role,
     handle_removal,
 ]
 

@@ -9,7 +9,6 @@ from .utils import handle_resources_auth_user
 
 # resources 
 resources = [
-    'condominiumrole',
     'outbuilding',
     'schedule',
 ]
@@ -37,4 +36,4 @@ def register_hooks(app):
                                          on_manager,
                                          resident_resources,
                                          resources)
-    app.on_pre_GET = handler
+    app.on_pre_GET += handler

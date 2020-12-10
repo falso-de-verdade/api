@@ -3,6 +3,7 @@ from . import (
     filter_by_auth_user,
     schedule_insertion,
     filter_users,
+    filter_by_auth_role,
     condominium,
 )
 
@@ -12,6 +13,7 @@ modules = [
     filter_by_auth_user,
     schedule_insertion,
     filter_users,
+    filter_by_auth_role,
     condominium,
 ]
 
