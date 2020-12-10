@@ -1,7 +1,12 @@
 schema = {
-    'condominium': {
+    'condominium': {    
+        'type': 'objectid',
         'required': True,
-        'type': 'string',
+        'data_relation': {
+            'resource': 'condominium',
+            'field': '_id',
+            'embeddable': True,
+        },
     },
     'token': {
         'required': True,
@@ -14,4 +19,29 @@ def build_domain():
     return {
         'schema': schema,
         'internal_resource': True,
+        'datasource': {
+            'aggregation': {
+                'pipeline': [
+                    {
+                        '$lookup': {
+                            'from': 'condominium',
+                            'localField': 'condominium',
+                            'foreignField': '_id',
+                            'as': 'condominium',
+                        },
+                    },
+                    {
+                        '$match': {
+                            '$expr': {
+                                '$and': [
+                                    {
+                                        '$eq': ['$token', '$tokenStr'],
+                                    }
+                                ]
+                            },
+                        },
+                    },
+                ],
+            },
+        },
     }

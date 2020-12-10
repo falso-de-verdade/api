@@ -2,17 +2,15 @@
 Handles user creation.
 '''
 
-from . import utils
+from . import utils, invitation
 from ..crypto import hasher
 from eve.methods.post import post_internal
+from eve.render import _prepare_response
 from eve.utils import config
 from flask import (
-    abort,
     Blueprint, 
     current_app as app
 )
-
-from datetime import timedelta, datetime, timezone
 
 # main blueprint app
 blueprint = Blueprint('user_creation', __name__, url_prefix='/signup')
@@ -27,12 +25,27 @@ def resident_signup():
     Sign up residents into application.
     '''
 
+    post_insertion = {}
+
     def add_resident(data):
         data['role'] = ['resident']
 
     def add_condominium(data):
-        condominium = find_condominium_or_fail(data['token'])
-        data['condominium'] = condominium
+        token = data.pop('token')
+        invite = invitation.find_invite_or_fail(token)
+        
+        # store it to save later
+        post_insertion['invite'] = invite
+
+        # remove condominium
+        invite.pop('condominium')
+
+    def on_success():
+        invite = post_insertion['invite']
+
+        # remove token
+        id_field = config.DOMAIN['invite']['id_field']
+        app.data.remove('invite', { id_field: invite['_id'] })
 
     def add_requirements(data):
         add_resident(data)
@@ -47,8 +60,14 @@ def resident_signup():
 
     custom_schema['required'].append('token')
 
-    return common_user_creation(add_requirements, 
-                                schema=custom_schema)
+    response, status = common_user_creation(add_requirements, 
+                                            schema=custom_schema)
+
+    # maybe call on success trigger
+    if status == 201:
+        on_success()
+
+    return _prepare_response(resource, respose, status=status)
 
 
 @blueprint.route('/manager', methods=['POST'])
@@ -85,30 +104,6 @@ def common_user_creation(with_data, schema=None):
     # create user and get first object id returned
     response, _, _, status, _ = post_internal(resource, payl=data)
     return response, status
-
-
-def find_condominium_or_fail(token):
-    '''
-    Try to find a condominium from invite token.
-    '''
-
-    invite = app.data.find_one_raw('invite', **{ 'token': token })
-
-    # ensure token exists
-    if invite is None:
-        abort(422, 'Unknow token')
-
-    # calculate how many time has gone
-    elapsed = datetime.now(timezone.utc) - invite['_created']
-
-    if elapsed > timedelta(minutes=config.INVITE_LIFETIME):
-        abort(422, 'Unknow token')
-
-    # remove token
-    id_field = config.DOMAIN['invite']['id_field']
-    app.data.remove('invite', { id_field: invite['_id'] })
-
-    return invite['condominium']
 
     
 def validation_schema():
