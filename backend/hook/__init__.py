@@ -4,6 +4,7 @@ from . import (
     schedule_insertion,
     filter_users,
     filter_by_auth_role,
+    filter_by_condo_manager,
     condominium,
 )
 
@@ -14,6 +15,7 @@ modules = [
     schedule_insertion,
     filter_users,
     filter_by_auth_role,
+    filter_by_condo_manager,
     condominium,
 ]
 

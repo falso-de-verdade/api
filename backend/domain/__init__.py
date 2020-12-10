@@ -4,6 +4,7 @@ from . import (
     media, collision, collisionitem,
     condominiumrole,
     invite,
+    resident,
 )
 
 
@@ -20,6 +21,7 @@ modules = {
     'collisionitem': collisionitem,
     'condominiumrole': condominiumrole,
     'invite': invite,
+    'resident': resident,
 }
 
 

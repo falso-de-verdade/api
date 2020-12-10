@@ -20,15 +20,6 @@ schema = {
         'type': 'list',
         'allowed': ["resident", "manager"],
     },
-
-    # list of user ids
-    'managers': {
-        'type': 'list',
-        'schema': {
-            'type': 'objectid',
-        },
-        'readonly': True,
-    }
 }
 
 
@@ -38,7 +29,8 @@ def build_domain():
 
         # override to only allow listing users
         # user creation is done by signup route
-        'resource_methods': ['GET',],
+        # 'resource_methods': ['GET',],
+        'internal_resource': True,
 
         # project all but passwdHash, which is sensitive
         'datasource': {
