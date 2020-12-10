@@ -8,7 +8,8 @@ from eve.methods.post import post_internal
 from eve.render import _prepare_response
 from eve.utils import config
 from flask import (
-    Blueprint, 
+    Blueprint,
+    abort,
     current_app as app
 )
 
@@ -33,19 +34,39 @@ def resident_signup():
     def add_condominium(data):
         token = data.pop('token')
         invite = invitation.find_invite_or_fail(token)
-        
+
         # store it to save later
         post_insertion['invite'] = invite
 
-        # remove condominium
-        invite.pop('condominium')
-
-    def on_success():
-        invite = post_insertion['invite']
-
+    def remove_invite(invite):
         # remove token
         id_field = config.DOMAIN['invite']['id_field']
         app.data.remove('invite', { id_field: invite['_id'] })
+
+    def add_role(invite, user_id):
+        payload = {
+            'condominium': invite['condominium'],
+            'user': user_id,
+            'role': 'resident',
+        }
+
+        response, _, _, status, _ = post_internal('condominiumrole', 
+                                                   payl=payload)
+        if status != 201:
+            raise Exception('Failed to create condominium role')
+
+    def on_success(response):
+        invite = post_insertion['invite']
+        
+        # try to create role
+        user_id = response['_id']
+        try:
+            add_role(invite, user_id)
+        except:
+            app.data.remove('user', { '_id': user_id })
+            abort(422, 'Condition failed when creating user')
+        
+        remove_invite(invite)
 
     def add_requirements(data):
         add_resident(data)
@@ -61,13 +82,14 @@ def resident_signup():
     custom_schema['required'].append('token')
 
     response, status = common_user_creation(add_requirements, 
-                                            schema=custom_schema)
+                                            schema=custom_schema,
+                                            prepare=False)
 
     # maybe call on success trigger
     if status == 201:
-        on_success()
+        on_success(response)
 
-    return _prepare_response(resource, respose, status=status)
+    return _prepare_response(resource, response, status=status)
 
 
 @blueprint.route('/manager', methods=['POST'])
@@ -82,7 +104,7 @@ def manager_signup():
     return common_user_creation(add_manager)
 
 
-def common_user_creation(with_data, schema=None):
+def common_user_creation(with_data, schema=None, prepare=True):
     '''
     Common user creation process.
     '''
@@ -103,6 +125,8 @@ def common_user_creation(with_data, schema=None):
 
     # create user and get first object id returned
     response, _, _, status, _ = post_internal(resource, payl=data)
+    if prepare:
+        return _prepare_response(resource, response, status=status)
     return response, status
 
     
