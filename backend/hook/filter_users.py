@@ -10,6 +10,9 @@ def on_internal_find(request, lookup):
     lookup['managers'] = {
         '$in': [get_request_auth_value()]
     }
+    lookup['role'] = {
+        '$eq': ['resident'],
+    }
 
 
 def register_hooks(app):

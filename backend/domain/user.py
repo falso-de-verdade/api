@@ -42,12 +42,6 @@ def build_domain():
 
         # project all but passwdHash, which is sensitive
         'datasource': {
-            'filter': {
-                'role': {
-                    '$eq': ['resident'],
-                },
-            },
-
             'projection': {
                 'email': 1,
                 'name': 1,
