@@ -4,35 +4,20 @@ Handles user creation.
 
 from . import utils
 from ..crypto import hasher
-from flask import Blueprint, current_app as app
+from eve.utils import config
+from flask import (
+    abort,
+    Blueprint, 
+    current_app as app
+)
+
+from datetime import timedelta, datetime, timezone
 
 # main blueprint app
 blueprint = Blueprint('user_creation', __name__, url_prefix='/signup')
 
 # domain resource
 resource = 'user'
-
-validation_schema = {
-    'type': 'object',
-    'properties': {
-        'email': {
-            'type': 'string',
-            'format': 'email',
-        },
-        'name': {
-            'type': 'string',
-        },
-        'password': {
-            'type': 'string',
-            'minLength': 8,
-        },
-    },
-    'required': [
-        'email',
-        'name',
-        'password',
-    ]
-}
 
 
 @blueprint.route('/resident', methods=['POST'])
@@ -41,18 +26,28 @@ def resident_signup():
     Sign up residents into application.
     '''
 
-    resident_role = {
-        'role': ['resident']
-    }
+    def add_resident(data):
+        data['role'] = ['resident']
 
-    # insert condominium field
-    validation_schema['properties']['condominium'] = {
+    def add_condominium(data):
+        condominium = find_condominium_or_fail(data['token'])
+        data['condominium'] = condominium
+
+    def add_requirements(data):
+        add_resident(data)
+        add_condominium(data)
+
+    custom_schema = validation_schema()
+
+    # insert token field
+    custom_schema['properties']['token'] = {
         'type': 'string',
     }
 
-    validation_schema['required'].append('condominium')
+    custom_schema['required'].append('token')
 
-    return common_user_creation(resident_role, schema=validation_schema)
+    return common_user_creation(add_requirements, 
+                                schema=custom_schema)
 
 
 @blueprint.route('/manager', methods=['POST'])
@@ -61,17 +56,18 @@ def manager_signup():
     Sign up managers into application.
     '''
 
-    manager_role = {
-        'role': ['manager']
-    }
+    def add_manager(data):
+        data['role'] = ['manager']
 
-    return common_user_creation(manager_role)
+    return common_user_creation(add_manager)
 
 
-def common_user_creation(additional_data, schema=validation_schema):
+def common_user_creation(with_data, schema=None):
     '''
     Common user creation process.
     '''
+
+    schema = schema or validation_schema()
 
     # parse payload data
     data = utils.validate_json_request(schema)
@@ -82,8 +78,8 @@ def common_user_creation(additional_data, schema=validation_schema):
     # discard cleartext password
     del data['password']
 
-    # add static data
-    data.update(additional_data)
+    # transform current data
+    with_data(data)
 
     # create user and get first object id returned
     _id = app.data.insert(resource, data)[0]
@@ -91,3 +87,55 @@ def common_user_creation(additional_data, schema=validation_schema):
     # build and send response for created item
     response = utils.build_item_response(resource, _id)
     return response, 201
+
+
+def find_condominium_or_fail(token):
+    '''
+    Try to find a condominium from invite token.
+    '''
+
+    invite = app.data.find_one_raw('invite', **{ 'token': token })
+
+    # ensure token exists
+    if invite is None:
+        abort(422, 'Unknow token')
+
+    # calculate how many time has gone
+    elapsed = datetime.now(timezone.utc) - invite['_created']
+
+    if elapsed > timedelta(minutes=config.INVITE_LIFETIME):
+        abort(422, 'Unknow token')
+
+    # remove token
+    id_field = config.DOMAIN['invite']['id_field']
+    app.data.remove('invite', { id_field: invite['_id'] })
+
+    return invite['condominium']
+
+    
+def validation_schema():
+    '''
+    Default validation schema.
+    '''
+
+    return {
+        'type': 'object',
+        'properties': {
+            'email': {
+                'type': 'string',
+                'format': 'email',
+            },
+            'name': {
+                'type': 'string',
+            },
+            'password': {
+                'type': 'string',
+                'minLength': 8,
+            },
+        },
+        'required': [
+            'email',
+            'name',
+            'password',
+        ]
+    }

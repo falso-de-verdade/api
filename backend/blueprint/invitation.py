@@ -4,6 +4,7 @@ Handles user default resource for self information.
 
 from . import utils
 from ..crypto.token import random_urlsafe_token
+from eve.methods.post import post_internal
 from eve.utils import config
 from eve_auth_jwt import requires_token, get_authen_roles
 from flask import (
@@ -35,7 +36,7 @@ def generate_invite(content):
     '''
 
     content['token'] = random_urlsafe_token()
-    app.data.insert('invite', content)
+    post_internal('invite', payl=content)
 
     host = config.CLIENT_HOST.lstrip('/')
     link = f'{host}/invite/{content["token"]}'

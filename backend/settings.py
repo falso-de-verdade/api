@@ -25,3 +25,7 @@ X_HEADERS = [
 # Disable HATEOS. 
 # The web client is not consuming it anyway.
 HATEOAS = False
+
+# Minutes which invite links will be valid
+# 1 day, by default
+INVITE_LIFETIME = 60 * 24
