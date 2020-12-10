@@ -8,6 +8,7 @@ req_variables = [
     'MONGO_URI',
     'JWT_SECRET',
     'X_DOMAINS',
+    'CLIENT_HOST',
 ]
 
 # other variables searched, but not required

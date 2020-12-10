@@ -2,7 +2,8 @@ from . import (
     user, passwordreset, condominium,
     schedule, meeting, outbuilding,
     media, collision, collisionitem,
-    condominiumrole
+    condominiumrole,
+    invite,
 )
 
 
@@ -17,7 +18,8 @@ modules = {
     'media': media,
     'collision': collision,
     'collisionitem': collisionitem,
-    'condominiumrole': condominiumrole
+    'condominiumrole': condominiumrole,
+    'invite': invite,
 }
 
 

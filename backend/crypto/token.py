@@ -2,6 +2,8 @@ from eve.utils import config
 from flask import current_app as app
 import jwt
 
+from base64 import b64encode
+from secrets import token_urlsafe
 import datetime
 
 
@@ -24,3 +26,11 @@ def generate_token(user: dict, as_role: str):
     }
 
     return jwt.encode(payload, app.auth.secret), expires_in
+
+
+def random_urlsafe_token():
+    '''
+    Generate PSRNG tokens.
+    '''
+
+    return token_urlsafe(64)

@@ -57,30 +57,13 @@ def signin(data):
     return authenticate(email, password, role)
 
 
-def with_fail(message, status=422, **kwargs):
-    '''
-    Helper method for creating responses with error status.
-    '''
-
-    # default eve response
-    response = {
-        '_status': 'ERR',
-        '_error': {
-            'message': message,
-            **kwargs,
-        }
-    }
-
-    return response, status
-
-
 def default_auth_failed_response():
     '''
     Default response for failed authentications.
     '''
 
-    return with_fail('Invalid credentials',
-                     status=401)
+    return utils.with_error('Invalid credentials',
+                            status=401)
 
 
 def verify_user_passwd(passwd_str: str, user: dict):
@@ -158,13 +141,13 @@ def authenticate(email, password, role=None):
                 # unfortunately we can not proceed
                 # user must send another request with 
                 # a role of choice
-                response = with_fail(message,
-                                     code=INDETERMINATE_ROLE)
+                response = utils.with_error(message,
+                                            code=INDETERMINATE_ROLE)
 
         elif role not in user_roles:
             message = f'Unknow role: {role}'
-            response = with_fail(message,
-                                 code=UNKNOW_ROLE)
+            response = utils.with_error(message,
+                                        code=UNKNOW_ROLE)
 
     # generate a new jwt token for user
     token, expires_in = generate_token(found_user, role)

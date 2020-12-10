@@ -3,6 +3,7 @@ from . import (
     signin,
     signup,
     user_info,
+    invitation,
 )
 
 # registered routes that mount into application
@@ -10,6 +11,7 @@ modules = [
     signin,
     signup,
     user_info,
+    invitation,
 ]
 
 
