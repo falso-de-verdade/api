@@ -9,7 +9,7 @@ from .utils import handle_resources_auth_user
 
 # resources 
 resources = [
-    'outbuilding',
+    # 'outbuilding',
     'schedule',
 ]
 

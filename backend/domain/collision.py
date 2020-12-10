@@ -14,18 +14,9 @@ schema = {
 def build_domain():
     return {
         'schema': schema,
-        # 'datasource': {
-        #     'aggregation': {
-        #         'pipeline': [
-        #             {
-        #                 '$lookup': {
-        #                     'from': 'collisionitem',
-        #                     'localField': '_id',
-        #                     'foreignField': 'collision',
-        #                     'as': as_,
-        #                 },
-        #             },
-        #         ]
-        #     }
-        # }   
+        'embedded_fields': [
+            'schedule',
+            'schedule.outbuilding',
+            'schedule.resident',
+        ],
     }

@@ -10,7 +10,7 @@ schema = {
             'embeddable': True,
         },
     },
-    'scheduleId': {    
+    'schedule': {    
         'type': 'objectid',
         'required': True,
         'data_relation': {
@@ -24,5 +24,11 @@ schema = {
 
 def build_domain():
     return {
-        'schema': schema
+        'schema': schema,
+        'embedded_fields': [
+            'collision',
+            'schedule',
+            'schedule.outbuilding',
+            'schedule.resident',
+        ],
     }
