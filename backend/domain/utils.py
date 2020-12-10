@@ -3,7 +3,7 @@ from eve.utils import config
 from secrets import token_hex
 from datetime import date
 
-hour_re = r'^([0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'
+hour_re = r'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'
 
 
 def coerce_date(date_str):
