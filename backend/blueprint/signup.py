@@ -12,6 +12,28 @@ blueprint = Blueprint('user_creation', __name__, url_prefix='/signup')
 # domain resource
 resource = 'user'
 
+validation_schema = {
+    'type': 'object',
+    'properties': {
+        'email': {
+            'type': 'string',
+            'format': 'email',
+        },
+        'name': {
+            'type': 'string',
+        },
+        'password': {
+            'type': 'string',
+            'minLength': 8,
+        },
+    },
+    'required': [
+        'email',
+        'name',
+        'password',
+    ]
+}
+
 
 @blueprint.route('/resident', methods=['POST'])
 def resident_signup():
@@ -23,7 +45,14 @@ def resident_signup():
         'role': ['resident']
     }
 
-    return common_user_creation(resident_role)
+    # insert condominium field
+    validation_schema['properties']['condominium'] = {
+        'type': 'string',
+    }
+
+    validation_schema['required'].append('condominium')
+
+    return common_user_creation(resident_role, schema=validation_schema)
 
 
 @blueprint.route('/manager', methods=['POST'])
@@ -39,32 +68,10 @@ def manager_signup():
     return common_user_creation(manager_role)
 
 
-def common_user_creation(additional_data):
+def common_user_creation(additional_data, schema=validation_schema):
     '''
     Common user creation process.
     '''
-
-    schema = {
-        'type': 'object',
-        'properties': {
-            'email': {
-                'type': 'string',
-                'format': 'email',
-            },
-            'name': {
-                'type': 'string',
-            },
-            'password': {
-                'type': 'string',
-                'minLength': 8,
-            },
-        },
-        'required': [
-            'email',
-            'name',
-            'password',
-        ]
-    }
 
     # parse payload data
     data = utils.validate_json_request(schema)

@@ -19,6 +19,15 @@ schema = {
         'required': True,
         'type': 'list',
         'allowed': ["resident", "manager"],
+    },
+
+    # list of user ids
+    'managers': {
+        'type': 'list',
+        'schema': {
+            'type': 'objectid',
+        },
+        'readonly': True,
     }
 }
 
@@ -33,11 +42,16 @@ def build_domain():
 
         # project all but passwdHash, which is sensitive
         'datasource': {
+            'filter': {
+                'role': {
+                    '$eq': ['resident'],
+                },
+            },
+
             'projection': {
                 'email': 1,
                 'name': 1,
                 'location': 1,
-                'role': 1,
             },
         },
     }
