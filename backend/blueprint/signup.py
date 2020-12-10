@@ -4,6 +4,7 @@ Handles user creation.
 
 from . import utils
 from ..crypto import hasher
+from eve.methods.post import post_internal
 from eve.utils import config
 from flask import (
     abort,
@@ -82,11 +83,8 @@ def common_user_creation(with_data, schema=None):
     with_data(data)
 
     # create user and get first object id returned
-    _id = app.data.insert(resource, data)[0]
-
-    # build and send response for created item
-    response = utils.build_item_response(resource, _id)
-    return response, 201
+    response, _, _, status, _ = post_internal(resource, payl=data)
+    return response, status
 
 
 def find_condominium_or_fail(token):
