@@ -3,6 +3,7 @@ from . import (
     filter_by_auth_user,
     schedule_insertion,
     filter_users,
+    condominium,
 )
 
 # register modules which contain hooks
@@ -11,6 +12,7 @@ modules = [
     filter_by_auth_user,
     schedule_insertion,
     filter_users,
+    condominium,
 ]
 
 

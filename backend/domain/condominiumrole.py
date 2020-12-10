@@ -1,22 +1,26 @@
 #tabela que associa um usuário, com o seu papel (por ex., Maria sendo síndica) com um condomínio
 schema = {
-    'userId': {    
+    'user': {
+        'type': 'objectid',
         'required': True,
         'data_relation': {
             'resource': 'user',
             'field': '_id',
+            'embeddable': True,
         },
     },
-    'condominiumId': {    
+    'condominium': {    
+        'type': 'objectid',
         'required': True,
         'data_relation': {
             'resource': 'condominium',
             'field': '_id',
+            'embeddable': True,
         },
     },
     'role': {
         'required': True,
-        'type': 'list',
+        'type': 'string',
         'allowed': ["resident", "manager"],
     }
 }
@@ -24,5 +28,5 @@ schema = {
 
 def build_domain():
     return {
-        'schema': schema
+        'schema': schema,
     }

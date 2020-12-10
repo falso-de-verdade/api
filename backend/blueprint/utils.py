@@ -2,6 +2,7 @@
 Helper functions for http parsing.
 '''
 
+from ..utils import with_error
 from eve.utils import config
 from eve.methods.common import (
     marshal_write_response,
@@ -109,20 +110,3 @@ def build_item_response(resource, _id, save_energy=True):
         response = result
 
     return response
-
-
-def with_error(message, status=422, **kwargs):
-    '''
-    Helper method for creating responses with error status.
-    '''
-
-    # default eve response
-    response = {
-        '_status': 'ERR',
-        '_error': {
-            'message': message,
-            **kwargs,
-        }
-    }
-
-    return response, status
